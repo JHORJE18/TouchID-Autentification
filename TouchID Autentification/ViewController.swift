@@ -11,7 +11,7 @@ import LocalAuthentication
 
 class ViewController: UIViewController {
 
-    // # Variables Especificas
+    // Variables Especificas
     @IBOutlet weak var labelPrincipal: UILabel!
     @IBOutlet weak var textUsuario: UITextField!
     @IBOutlet weak var textPassword: UITextField!
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // # Metodos Botones
+    // Metodos Botones
     @IBAction func btnAcceder(_ sender: UIButton) {
         if (textUsuario.text?.elementsEqual(""))! {
             labelPrincipal.textColor = UIColor.black
@@ -46,9 +46,9 @@ class ViewController: UIViewController {
         self.autentificarUsuario()
     }
     
-    //Metodo Autentificar mediante TouchID
+    // Metodo Autentificar mediante TouchID
     func autentificarUsuario() {
-        //Obtiene contexto actual y prepara gestor de errores
+        // Obtiene contexto actual y prepara gestor de errores
         let context = LAContext()
         var error: NSError?
         
@@ -60,12 +60,12 @@ class ViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if success {
-                        //Identificación correcta!
+                        // Identificación correcta!
                         print("Correcto Login")
                         self.labelPrincipal.text = "Login Correcto"
                         self.labelPrincipal.textColor = UIColor.green
                     } else {
-                        //Identificación incorrecta
+                        // Identificación incorrecta
                         let ac = UIAlertController(title: "Error!", message: "Se ha producido un error durante la validación de tu Huella, por favor vuelve a intentarlo más tarde.", preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "OK", style: .default))
                         self.present(ac, animated: true)
@@ -75,13 +75,12 @@ class ViewController: UIViewController {
                 }
             }
         } else {
-            //Dispositivo no compatible o no preparado para usar TouchID
-            // En el caso de iPhone X usara FaceID en vez de TouchID
-            let ac = UIAlertController(title: "Touch ID no dispondible", message: "Tú dispositi for Touch ID.", preferredStyle: .alert)
+            // Dispositivo no compatible o no preparado para usar TouchID
+            //  En el caso de iPhone X usara FaceID en vez de TouchID
+            let ac = UIAlertController(title: "Touch ID no dispondible", message: "Tu dispositivo no soporta TouchID.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
         }
     }
     
 }
-
