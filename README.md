@@ -29,7 +29,7 @@ Proyecto para probar la integración del TouchID para Iniciar Sesión (Realmente
         } else {
             //Dispositivo no compatible o no preparado para usar TouchID
             // En el caso de iPhone X usara FaceID en vez de TouchID
-            let ac = UIAlertController(title: "Touch ID no dispondible", message: "Tú dispositi for Touch ID.", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Touch ID no dispondible", message: "Tu dispositivo no soporta TouchID.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
         }
