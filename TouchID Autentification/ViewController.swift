@@ -8,10 +8,13 @@
 
 import UIKit
 import LocalAuthentication
+import UserNotifications
 
 class ViewController: UIViewController {
 
     // Variables Especificas
+    let center = UNUserNotificationCenter.current()
+    
     @IBOutlet weak var labelPrincipal: UILabel!
     @IBOutlet weak var labelTiempo: UILabel!
     @IBOutlet weak var selector: UISlider!
@@ -21,6 +24,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //Solicita permiso notificaciones
+        let options: UNAuthorizationOptions = [.alert, .sound];
+        
+        //Check si se ha concedido permiso por primera vez
+        center.requestAuthorization(options: options) {
+            (granted, error) in
+            if !granted {
+                print("Something went wrong")
+            }
+        }
+        
+        //Checkea si se tiene permiso (No es la primera solicitud)
+        center.getNotificationSettings { (settings) in
+            if settings.authorizationStatus != .authorized {
+                // Notifications not allowed
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +76,22 @@ class ViewController: UIViewController {
         alertaNotificacion.addAction(UIAlertAction(title: "Cancelar", style: .destructive))
         
         self.present(alertaNotificacion, animated: true)
+        
+        //Creamos notificación
+        let notificacionBurbuja = UNMutableNotificationContent()
+        notificacionBurbuja.title = "Se ha acabado!"
+        notificacionBurbuja.body = "Ya era hora de terminar de esta pesadilla"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(Int(selector.value * 100)), repeats: false)
+        let notificationRequest = UNNotificationRequest(identifier: "cocoacasts_local_notification", content: notificacionBurbuja, trigger: trigger)
+        
+        print("Cargando notificacion para " , (trigger.timeInterval))
+        // Add Request to User Notification Center
+        UNUserNotificationCenter.current().add(notificationRequest) { (error) in
+            if let error = error {
+                print("Unable to Add Notification Request (\(error), \(error.localizedDescription))")
+            }
+        }
     }
     
     @IBAction func btnAccederTouchID(_ sender: Any) {
