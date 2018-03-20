@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
     // Variables Especificas
     @IBOutlet weak var labelPrincipal: UILabel!
+    @IBOutlet weak var labelTiempo: UILabel!
+    @IBOutlet weak var selector: UISlider!
     @IBOutlet weak var textUsuario: UITextField!
     @IBOutlet weak var textPassword: UITextField!
     
@@ -40,6 +42,19 @@ class ViewController: UIViewController {
                 labelPrincipal.text = "Hola " + textUsuario.text!
             }
         }
+    }
+    
+    @IBAction func selectorChanged(_ sender: UISlider) {
+        labelTiempo.text = String( Int(selector.value * 100))
+    }
+    
+    // Enviar nueca notificación
+    @IBAction func btnNuevaNotificacion(_ sender: UIButton) {
+        let alertaNotificacion = UIAlertController(title: "Notificación solicitada", message: "Se ha solicitado una notificación para dentro de " + String(Int(selector.value * 100)) + " segundos", preferredStyle: .alert)
+        alertaNotificacion.addAction(UIAlertAction(title: "Aceptar", style: .default))
+        alertaNotificacion.addAction(UIAlertAction(title: "Cancelar", style: .destructive))
+        
+        self.present(alertaNotificacion, animated: true)
     }
     
     @IBAction func btnAccederTouchID(_ sender: Any) {
