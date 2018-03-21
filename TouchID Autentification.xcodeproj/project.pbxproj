@@ -13,6 +13,7 @@
 		A07DAC17205AB6D2007DB71D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A07DAC16205AB6D2007DB71D /* Assets.xcassets */; };
 		A07DAC1A205AB6D2007DB71D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A07DAC18205AB6D2007DB71D /* LaunchScreen.storyboard */; };
 		A07DAC29205ACF40007DB71D /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A07DAC28205ACF3F007DB71D /* LocalAuthentication.framework */; };
+		A0C25B1520625B1300DA21A6 /* steve_jobs.gif in Resources */ = {isa = PBXBuildFile; fileRef = A0C25B1420625B1300DA21A6 /* steve_jobs.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A07DAC19205AB6D2007DB71D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A07DAC1B205AB6D2007DB71D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A07DAC28205ACF3F007DB71D /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		A0C25B1420625B1300DA21A6 /* steve_jobs.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = steve_jobs.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				A07DAC0F205AB6D1007DB71D /* AppDelegate.swift */,
 				A07DAC11205AB6D1007DB71D /* ViewController.swift */,
 				A07DAC13205AB6D2007DB71D /* Main.storyboard */,
+				A0C25B1420625B1300DA21A6 /* steve_jobs.gif */,
 				A07DAC16205AB6D2007DB71D /* Assets.xcassets */,
 				A07DAC18205AB6D2007DB71D /* LaunchScreen.storyboard */,
 				A07DAC1B205AB6D2007DB71D /* Info.plist */,
@@ -137,6 +140,7 @@
 			files = (
 				A07DAC1A205AB6D2007DB71D /* LaunchScreen.storyboard in Resources */,
 				A07DAC17205AB6D2007DB71D /* Assets.xcassets in Resources */,
+				A0C25B1520625B1300DA21A6 /* steve_jobs.gif in Resources */,
 				A07DAC15205AB6D2007DB71D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

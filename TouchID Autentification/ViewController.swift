@@ -10,7 +10,7 @@ import UIKit
 import LocalAuthentication
 import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
     // Variables Especificas
     let center = UNUserNotificationCenter.current()
@@ -42,6 +42,8 @@ class ViewController: UIViewController {
                 // Notifications not allowed
             }
         }
+        
+        UNUserNotificationCenter.current().delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,16 +79,29 @@ class ViewController: UIViewController {
         
         self.present(alertaNotificacion, animated: true)
         
-        //Creamos notificación
+        // Creamos notificación
         let notificacionBurbuja = UNMutableNotificationContent()
         notificacionBurbuja.title = "Se ha acabado!"
         notificacionBurbuja.body = "Ya era hora de terminar de esta pesadilla"
         
+        if let path = Bundle.main.path(forResource: "steve_jobs", ofType: "gif") {
+            let url = URL(fileURLWithPath: path)
+            
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "zelda", url: url, options: nil)
+                notificacionBurbuja.attachments = [attachment]
+            } catch {
+                print("La imagen no se ha cargado")
+            }
+        }
+        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(Int(selector.value * 100)), repeats: false)
         let notificationRequest = UNNotificationRequest(identifier: "cocoacasts_local_notification", content: notificacionBurbuja, trigger: trigger)
         
-        print("Cargando notificacion para " , (trigger.timeInterval))
-        // Add Request to User Notification Center
+        print("Cargando notificacion para dentro de " , (trigger.timeInterval))
+        // Elimina todas las notificaciones que quedaron pendientes
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        // Añadir notificación al Centro de Control (De Notificaciones)
         UNUserNotificationCenter.current().add(notificationRequest) { (error) in
             if let error = error {
                 print("Unable to Add Notification Request (\(error), \(error.localizedDescription))")
@@ -95,7 +110,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnAccederTouchID(_ sender: Any) {
-        self.autentificarUsuario()
+        if (!textUsuario.isEqual("")){
+            self.autentificarUsuario()
+        } else {
+            let alertUser = UIAlertController(title: "Error!", message: "No has introducido ningun Usuario con el que Iniciar Sesión.", preferredStyle: .alert)
+            alertUser.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertUser, animated: true)
+        }
     }
     
     // Metodo Autentificar mediante TouchID
@@ -134,5 +155,12 @@ class ViewController: UIViewController {
             present(ac, animated: true)
         }
     }
+    
+    // Metodo que confirma que debe mostrar notificaciones estando dentro de la app
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert])
+    }
+
     
 }
