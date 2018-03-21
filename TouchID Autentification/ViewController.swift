@@ -23,6 +23,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Inicio de la aplicación
         // Do any additional setup after loading the view, typically from a nib.
         
         //Solicita permiso notificaciones
@@ -54,10 +55,12 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
     // Metodos Botones
     @IBAction func btnAcceder(_ sender: UIButton) {
+        // Cualquier usuario es valido (Excepto el vacio)
         if (textUsuario.text?.elementsEqual(""))! {
             labelPrincipal.textColor = UIColor.black
             labelPrincipal.text = "Usuario " + textUsuario.text! + " no existe"
         } else {
+            //
             if (textPassword.text?.elementsEqual(""))!{
                 labelPrincipal.textColor = UIColor.red
                 labelPrincipal.text = "Contraseña incorrecta!"
@@ -70,7 +73,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     // Control de botones de Notificación
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // TODO Gestionar posiblidades o opciones
+        // Gestiona la acción que ha seleccionado en la notificcacion
         switch response.actionIdentifier {
         case "rememberAction":
             print("Vale, le avisare más tarde")
@@ -86,14 +89,16 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         }
     }
     
+    // Refrescar contador del selector
     @IBAction func selectorChanged(_ sender: UISlider) {
         labelTiempo.text = String( Int(selector.value * 100))
     }
     
+    // Solicita, crea y envia una notificación
     func solicitarNotificacion(){
         let notificacionBurbuja = UNMutableNotificationContent()
         notificacionBurbuja.title = "Se ha acabado!"
-        notificacionBurbuja.body = "Ya era hora de terminar de esta pesadilla"
+        notificacionBurbuja.body = "Ya era hora de terminar esta pesadilla, " + textUsuario.text!
         
         if let path = Bundle.main.path(forResource: "steve_jobs", ofType: "gif") {
             let url = URL(fileURLWithPath: path)
@@ -107,6 +112,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         }
         
         // Añadimos acciones de la notificación
+            // Al reaccionar sobre una acción se redirigie al metodo ' userNotificationCenter ' , el cual se encarga de gesttionar de que evento ha venido y definir que debe realizar o que metodos debe ejecutar
         
         //1. Creamos la acción de Recordar
         let rememberAction = UNNotificationAction(identifier: "rememberAction", title: "Recordar más tarde", options: [])
