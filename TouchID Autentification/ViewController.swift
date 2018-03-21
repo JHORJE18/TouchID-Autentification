@@ -60,7 +60,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             labelPrincipal.textColor = UIColor.black
             labelPrincipal.text = "Usuario " + textUsuario.text! + " no existe"
         } else {
-            //
+            //Si la contraseña esta vacia, no es válido
+            //Cualquier contraseña introducida sera dada como válida
             if (textPassword.text?.elementsEqual(""))!{
                 labelPrincipal.textColor = UIColor.red
                 labelPrincipal.text = "Contraseña incorrecta!"
@@ -77,7 +78,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         switch response.actionIdentifier {
         case "rememberAction":
             print("Vale, le avisare más tarde")
-            solicitarNotificacion()
+            solicitarNotificacion(titulo: "Ya es hora", mensaje: "Ya ha pasado más tiempo y es hora de irse!", nameFoto: "bye", typeFoto: "gif")
             break
         case "deleteAction":
             print("Vale, elimino la notificación")
@@ -95,12 +96,12 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     }
     
     // Solicita, crea y envia una notificación
-    func solicitarNotificacion(){
+    func solicitarNotificacion(titulo :String, mensaje :String, nameFoto :String, typeFoto :String){
         let notificacionBurbuja = UNMutableNotificationContent()
-        notificacionBurbuja.title = "Se ha acabado!"
-        notificacionBurbuja.body = "Ya era hora de terminar esta pesadilla, " + textUsuario.text!
+        notificacionBurbuja.title = titulo
+        notificacionBurbuja.body = mensaje
         
-        if let path = Bundle.main.path(forResource: "steve_jobs", ofType: "gif") {
+        if let path = Bundle.main.path(forResource: nameFoto, ofType: typeFoto) {
             let url = URL(fileURLWithPath: path)
             
             do {
@@ -154,8 +155,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         
         self.present(alertaNotificacion, animated: true)
         
-        // Creamos notificación
-        solicitarNotificacion()
+        // Llamamos al constructor
+        solicitarNotificacion(titulo: "Ya basta!", mensaje: "Ya has terminado por hoy asi que toca descansar, " +  textUsuario.text!, nameFoto: "steve_jobs", typeFoto: "gif")
     }
     
     // Boton acceder mediante TouchID
