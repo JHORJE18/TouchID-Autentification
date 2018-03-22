@@ -20,6 +20,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     @IBOutlet weak var selector: UISlider!
     @IBOutlet weak var textUsuario: UITextField!
     @IBOutlet weak var textPassword: UITextField!
+    @IBOutlet weak var btnAdd: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +85,11 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             print("Vale, elimino la notificación")
             UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["cocoacasts_local_notification"])
             break
+        case "extraAction":
+            solicitarNotificacion(titulo: "HE HE HE HE HE", mensaje: "Hora de viajar a traves del tiempo y del espacio", nameFoto: "doctor_tardis", typeFoto: "gif")
+            break
         default:
+            // En caso de que venga por una acción no identificada a solamente ha entrado en la notificación sin ninguna acción previa
             print("No se de donde ha venido")
             break
         }
@@ -92,7 +97,21 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     // Refrescar contador del selector
     @IBAction func selectorChanged(_ sender: UISlider) {
-        labelTiempo.text = String( Int(selector.value * 100))
+        let valor :Int = Int(selector.value * 100)
+        switch valor {
+        case 1:
+            labelTiempo.text = String( valor) + " segundo"
+            btnAdd.isEnabled = true
+            break
+        case 0:
+            labelTiempo.text = String( valor) + " segundos"
+            btnAdd.isEnabled = false
+            break
+        default:
+            labelTiempo.text = String( valor) + " segundos"
+            btnAdd.isEnabled = true
+            break
+        }
     }
     
     // Solicita, crea y envia una notificación
@@ -121,8 +140,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         //2. Creamos la acción de Eliminar
         let deleteAction = UNNotificationAction(identifier: "deleteAction", title: "Eliminar Notificación", options: [])
         
+        let action2 = UNNotificationAction(identifier: "extraAction", title: "HAHAHAHA", options: [])
+        
         //3. Creamos la categoría que agrupa las acciones
-        let category = UNNotificationCategory(identifier: "cocoacasts_local_notification_category", actions: [rememberAction, deleteAction], intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "cocoacasts_local_notification_category", actions: [rememberAction, deleteAction, action2], intentIdentifiers: [], options: [])
         
         // Asigna la cateogira de la notificación actual
         notificacionBurbuja.categoryIdentifier = "cocoacasts_local_notification_category"
@@ -149,12 +170,6 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     // Enviar nueca notificación
     @IBAction func btnNuevaNotificacion(_ sender: UIButton) {
-        let alertaNotificacion = UIAlertController(title: "Notificación solicitada", message: "Se ha solicitado una notificación para dentro de " + String(Int(selector.value * 100)) + " segundos", preferredStyle: .alert)
-        alertaNotificacion.addAction(UIAlertAction(title: "Aceptar", style: .default))
-        alertaNotificacion.addAction(UIAlertAction(title: "Cancelar", style: .destructive))
-        
-        self.present(alertaNotificacion, animated: true)
-        
         // Llamamos al constructor
         solicitarNotificacion(titulo: "Ya basta!", mensaje: "Ya has terminado por hoy asi que toca descansar, " +  textUsuario.text!, nameFoto: "steve_jobs", typeFoto: "gif")
     }
